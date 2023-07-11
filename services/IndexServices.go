@@ -74,7 +74,7 @@ func (Wss WsRouter) IndexService(c *gin.Context) {
 		if err != nil {
 			log.Println("json.Unmarshal:", err)
 			ws.WriteMessage(1, []byte("数据不合法err：json.Unmarshal:"+err.Error()))
-			break
+			continue
 		}
 
 		var messageService = &MessageService{}
