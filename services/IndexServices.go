@@ -9,9 +9,11 @@ import (
 	"reflect"
 )
 
+// WsRouter...
 type WsRouter struct {
 }
 
+// upgrade...
 var upgrade = websocket.Upgrader{
 	// 解决跨域问题
 	CheckOrigin: func(r *http.Request) bool {
@@ -19,12 +21,13 @@ var upgrade = websocket.Upgrader{
 	},
 } // use default options
 
+// RequestJson...
 type RequestJson struct {
 	Action string        `json:"action"`
 	Data   []interface{} `json:"data"`
 }
 
-// IndexService ...
+// IndexService...
 
 /**
 * @api {get} /ws 服务端
@@ -52,6 +55,7 @@ type RequestJson struct {
  * }
 */
 func (Wss WsRouter) IndexService(c *gin.Context) {
+	// upgrade the connection
 	ws, err := upgrade.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
 		log.Print("upgrade:", err)
@@ -64,11 +68,13 @@ func (Wss WsRouter) IndexService(c *gin.Context) {
 		}
 	}(ws)
 	for {
+		// read the message
 		_, message, err := ws.ReadMessage()
 		if err != nil {
 			log.Println("read:", err)
 			break
 		}
+		// unmarshal the message
 		var RequestJson = &RequestJson{}
 		err = json.Unmarshal(message, RequestJson)
 		if err != nil {
@@ -77,9 +83,11 @@ func (Wss WsRouter) IndexService(c *gin.Context) {
 			continue
 		}
 
+		// create a new message service
 		var messageService = &MessageService{}
 		vm := reflect.ValueOf(messageService)
 
+		// find the method
 		name := vm.MethodByName(RequestJson.Action)
 		if name.IsValid() {
 			// 反射调用
