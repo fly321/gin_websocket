@@ -8,7 +8,7 @@ WORKDIR /go/src/app
 COPY . .
 
 # 安装依赖
-RUN go mod tidy
+RUN go mod tidy && \n    go get -u github.com/gin-gonic/gin && \n
 
 # 编译 Go 代码
 RUN go build -o main .
