@@ -8,7 +8,7 @@ WORKDIR /go/src/app
 COPY . .
 
 # 安装依赖
-RUN go mod download
+RUN go mod tidy
 
 # 编译 Go 代码
 RUN go build -o main .
