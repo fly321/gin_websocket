@@ -1,5 +1,5 @@
 # 使用 Golang 镜像作为基础镜像
-FROM golang:latest
+FROM golang:1.19.13
 
 # 设置工作目录
 WORKDIR /go/src/app
