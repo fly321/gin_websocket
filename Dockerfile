@@ -1,5 +1,9 @@
 # 使用 Golang 镜像作为基础镜像
 FROM golang:latest
+# 更新源
+RUN apt-get update
+# 安装 git
+RUN apt-get install -y git
 
 # 设置工作目录
 WORKDIR /go/src/app
