@@ -16,5 +16,8 @@ RUN go build -o main .
 # 暴露端口
 EXPOSE 8080
 
+# 修改文件权限
+RUN chmod +x main
+
 # 运行应用
 CMD ["./main"]
